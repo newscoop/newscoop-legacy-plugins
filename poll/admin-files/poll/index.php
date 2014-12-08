@@ -23,7 +23,6 @@ foreach ($parents as $poll) {
     }
 }
 
-
 $pager = new SimplePager(Poll::countPolls(), $f_poll_limit, "f_poll_offset", "index.php?f_poll_order=$f_poll_order&amp;", false);
 $allLanguages = Language::GetLanguages();
 
@@ -34,15 +33,13 @@ echo camp_html_breadcrumbs(array(
     array($translator->trans('Polls', array(), 'plugin_poll'), ''),
 ));
 
-// DO NOT DELETE!!! Needed for localizer
-// $translator->trans("Polls");
 ?>
 <script type="text/javascript" src="<?php echo $Campsite['WEBSITE_URL']; ?>/js/campsite-checkbox.js"></script>
 
 <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1" class="action_buttons" style="padding-top: 5px;">
 <TR>
     <TD><A HREF="edit.php" ><IMG SRC="<?php echo $Campsite["ADMIN_IMAGE_BASE_URL"]; ?>/add.png" BORDER="0"></A></TD>
-    <TD><A HREF="edit.php" ><B><?php  putGS("Add new Poll"); ?></B></A></TD>
+    <TD><A HREF="edit.php" ><B><?php  echo $translator->trans("Add new Poll", array(), 'plugin_poll'); ?></B></A></TD>
 </tr>
 </TABLE>
 <p>
@@ -57,10 +54,10 @@ echo camp_html_breadcrumbs(array(
             <TD ALIGN="left">
                 <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="3" >
                 <TR>
-                    <TD><?php  putGS('Language'); ?>:</TD>
+                    <TD><?php echo $translator->trans('Language', array(), 'plugin_poll'); ?>:</TD>
                     <TD valign="middle">
                         <SELECT NAME="f_language_selected" id="f_language_selected" class="input_select" onchange="location.href='index.php?f_language_selected='+document.getElementById('f_language_selected').options[document.getElementById('f_language_selected').selectedIndex].value;">
-                        <option value="0"><?php putGS("All"); ?></option>
+                        <option value="0"><?php echo $translator->trans("All", array(), 'plugin_poll'); ?></option>
                         <?php
                         foreach ($allLanguages as $languageItem) {
                             echo '<OPTION value="'.$languageItem->getLanguageId().'"' ;
@@ -88,8 +85,7 @@ echo camp_html_breadcrumbs(array(
                         if (!checkboxes.length) {
                             isValid = checkboxes.checked;
                             numCheckboxesChecked = isValid ? 1 : 0;
-                        }
-                        else {
+                        } else {
                             // Multiple checkboxes
                             for (var index = 0; index < checkboxes.length; index++) {
                                 if (checkboxes[index].checked) {
@@ -99,13 +95,14 @@ echo camp_html_breadcrumbs(array(
                             }
                         }
                         if (!isValid) {
-                            alert("<?php putGS("You must select at least one poll to perform an action."); ?>");
+                            alert("<?php echo $translator->trans("You must select at least one poll to perform an action.", array(), 'plugin_poll'); ?>");
                             dropdownElement.options[0].selected = true;
+
                             return;
                         }
-                    }
-                    else {
+                    } else {
                         dropdownElement.options[0].selected = true;
+
                         return;
                     }
 
@@ -124,18 +121,20 @@ echo camp_html_breadcrumbs(array(
 
                     // if the user has selected the "delete" option
                     if (dropdownElement.selectedIndex == deleteOptionIndex) {
-                        ok = confirm("<?php putGS("Are you sure you want to delete the selected polls?"); ?>");
+                        ok = confirm("<?php echo $translator->trans("Are you sure you want to delete the selected polls?", array(), 'plugin_poll'); ?>");
                         if (!ok) {
                             dropdownElement.options[0].selected = true;
+
                             return;
                         }
                     }
 
                     // if the user has selected the "reset" option
                     if (dropdownElement.selectedIndex == resetOptionIndex) {
-                        ok = confirm("<?php putGS("Are you sure you want to reset counters on the selected polls?"); ?>");
+                        ok = confirm("<?php echo $translator->trans("Are you sure you want to reset counters on the selected polls?", array(), 'plugin_poll'); ?>");
                         if (!ok) {
                             dropdownElement.options[0].selected = true;
+
                             return;
                         }
                     }
@@ -147,15 +146,15 @@ echo camp_html_breadcrumbs(array(
                 }
                 </script>
                 <SELECT name="f_poll_list_action" class="input_select" onchange="action_selected(this);">
-                    <OPTION value=""><?php putGS("Actions"); ?>...</OPTION>
-                    <OPTION value="delete"><?php putGS("Delete"); ?></OPTION>
-                    <OPTION value="reset"><?php putGS("Reset"); ?></OPTION>
+                    <OPTION value=""><?php echo $translator->trans("Actions", array(), 'plugin_poll'); ?>...</OPTION>
+                    <OPTION value="delete"><?php echo $translator->trans("Delete", array(), 'plugin_poll'); ?></OPTION>
+                    <OPTION value="reset"><?php echo $translator->trans("Reset", array(), 'plugin_poll'); ?></OPTION>
                 </SELECT>
             </TD>
 
             <TD style="padding-left: 5px; font-weight: bold;">
-                <input type="button" class="button" value="<?php putGS("Select All"); ?>" onclick="checkAll(<?php p(count($polls)); ?>);">
-                <input type="button" class="button" value="<?php putGS("Select None"); ?>" onclick="uncheckAll(<?php p(count($polls)); ?>);">
+                <input type="button" class="button" value="<?php echo $translator->trans("Select All", array(), 'plugin_poll'); ?>" onclick="checkAll(<?php p(count($polls)); ?>);">
+                <input type="button" class="button" value="<?php echo $translator->trans("Select None", array(), 'plugin_poll'); ?>" onclick="uncheckAll(<?php p(count($polls)); ?>);">
             </TD>
         </TR>
         </TABLE>
@@ -183,14 +182,14 @@ if (count($polls)) {
         <TR class="table_list_header">
             <TD width="10">&nbsp;</TD>
             <TD ALIGN="LEFT" VALIGN="TOP" width="800">
-                <A href="index.php?f_poll_offset=<?php echo $f_poll_offset ?>&amp;f_poll_order=byname"><?php  putGS("Name"); ?></a>
-                &nbsp;<SMALL>(<?php putGS('click to edit'); ?></SMALL>
+                <A href="index.php?f_poll_offset=<?php echo $f_poll_offset ?>&amp;f_poll_order=byname"><?php echo $translator->trans("Name", array(), 'plugin_poll'); ?></a>
+                &nbsp;<SMALL>(<?php echo $translator->trans('click to edit', array(), 'plugin_poll'); ?></SMALL>
             </TD>
             <TD ALIGN="center" VALIGN="TOP" width="30">
-                <A href="index.php?f_poll_offset=<?php echo $f_poll_offset ?>&amp;f_poll_order=bybegin"><?php  putGS("Begin"); ?></a>
+                <A href="index.php?f_poll_offset=<?php echo $f_poll_offset ?>&amp;f_poll_order=bybegin"><?php echo $translator->trans("Begin", array(), 'plugin_poll'); ?></a>
             </TD>
             <TD ALIGN="center" VALIGN="TOP" width="30">
-                <A href="index.php?f_poll_offset=<?php echo $f_poll_offset ?>&amp;f_poll_order=byend"><?php  putGS("End"); ?></a>
+                <A href="index.php?f_poll_offset=<?php echo $f_poll_offset ?>&amp;f_poll_order=byend"><?php echo $translator->trans("End", array(), 'plugin_poll'); ?></a>
             </TD>
             <TD ALIGN="center" VALIGN="TOP" width="20">&nbsp;</TD>
             <TD ALIGN="center" VALIGN="TOP" width="20">&nbsp;</TD>
@@ -212,7 +211,7 @@ if (count($polls)) {
             <script>default_class[<?php p($counter); ?>] = "<?php p($rowClass); ?>";</script>
             <TR id="row_<?php p($counter); ?>" class="<?php p($rowClass); ?>" onmouseover="setPointer(this, <?php p($counter); ?>, 'over');" onmouseout="setPointer(this, <?php p($counter); ?>, 'out');">
                 <TD>
-                    <input type="checkbox" value="<?php p((int)$poll->getNumber().'_'.(int)$poll->getLanguageId()); ?>" name="f_poll_code[]" id="checkbox_<?php p($counter); ?>" class="input_checkbox" onclick="checkboxClick(this, <?php p($counter); ?>);">
+                    <input type="checkbox" value="<?php p((int) $poll->getNumber().'_'.(int) $poll->getLanguageId()); ?>" name="f_poll_code[]" id="checkbox_<?php p($counter); ?>" class="input_checkbox" onclick="checkboxClick(this, <?php p($counter); ?>);">
                 </TD>
 
                 <td>
@@ -237,7 +236,7 @@ if (count($polls)) {
 
                 <td align='center'>
                 <?php if (!$poll->getProperty('parent_poll_nr')) { ?>
-                    <a href="translate.php?f_poll_nr=<?php p($poll->getNumber()); ?>&f_fk_language_id=<?php p($poll->getLanguageId()) ?>" title="<?php putGS('Translate') ?>">
+                    <a href="translate.php?f_poll_nr=<?php p($poll->getNumber()); ?>&f_fk_language_id=<?php p($poll->getLanguageId()) ?>" title="<?php echo $translator->trans('Translate', array(), 'plugin_poll') ?>">
                         <IMG SRC="<?php echo $Campsite["ADMIN_IMAGE_BASE_URL"]; ?>/translate.png" BORDER="0">
                     </a>
                 <?php } ?>
@@ -245,14 +244,14 @@ if (count($polls)) {
 
                 <td align='center'>
                 <?php if ($poll->isExtended()) { ?>
-                    <a href="copy.php?f_poll_nr=<?php p($poll->getNumber()); ?>&f_fk_language_id=<?php p($poll->getLanguageId()) ?>" title="<?php putGS('Copy') ?>">
+                    <a href="copy.php?f_poll_nr=<?php p($poll->getNumber()); ?>&f_fk_language_id=<?php p($poll->getLanguageId()) ?>" title="<?php echo $translator->trans('Copy', array(), 'plugin_poll') ?>">
                         <IMG SRC="<?php echo $Campsite["ADMIN_IMAGE_BASE_URL"]; ?>/duplicate.png" BORDER="0">
                     </a>
                 <?php } ?>
                 </td>
 
                 <td align='center'>
-                    <a href="result.php?f_poll_nr=<?php p($poll->getNumber()); ?>&f_fk_language_id=<?php p($poll->getLanguageId()); ?>" title="<?php putGS('Result') ?>">
+                    <a href="result.php?f_poll_nr=<?php p($poll->getNumber()); ?>&f_fk_language_id=<?php p($poll->getLanguageId()); ?>" title="<?php echo $translator->trans('Result', array(), 'plugin_poll') ?>">
                         <IMG SRC="<?php echo $Campsite["ADMIN_IMAGE_BASE_URL"]; ?>/preview.png" BORDER="0">
                     </a>
                 </td>
@@ -273,8 +272,9 @@ if (count($polls)) {
 <?php
 } else {?>
     <BLOCKQUOTE>
-    <LI><?php  putGS('No polls.'); ?></LI>
+    <LI><?php echo $translator->trans('No polls.', array(), 'plugin_poll'); ?></LI>
     </BLOCKQUOTE>
     <?php
 }
 ?>
+
