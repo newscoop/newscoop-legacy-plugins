@@ -94,8 +94,6 @@ class DebateAnswer extends DatabaseObject
         $res = $g_ado_db->Execute(sprintf($query, ""));
         /* @var $res ADORecordSet_mysql */
         $total = $res->RowCount();
-
-        $this->m_data['percentage'] = $total>0 ? 100*$answers/$total : 0;
     }
 
     /**
