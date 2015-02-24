@@ -2,18 +2,19 @@
 /**
  * @package Campsite
  */
-class Poll extends DatabaseObject {
+class Poll extends DatabaseObject
+{
     /**
      * The column names used for the primary key.
      * @var array
      */
-    var $m_keyColumnNames = array('poll_nr', 'fk_language_id');
+    public $m_keyColumnNames = array('poll_nr', 'fk_language_id');
 
-    var $m_keyIsAutoIncrement = false;
+    public $m_keyIsAutoIncrement = false;
 
-    var $m_dbTableName = 'plugin_poll';
+    public $m_dbTableName = 'plugin_poll';
 
-    var $m_columnNames = array(
+    public $m_columnNames = array(
         // int - poll poll_nr
         'poll_nr',
 
@@ -65,16 +66,16 @@ class Poll extends DatabaseObject {
      *
      * @var unknown_type
      */
-    var $m_mode = 'single';
+    public $m_mode = 'single';
 
     /**
      * Construct by passing in the primary key to access the poll in
      * the database.
      *
      * @param int $p_language_id
-     *        Not required if poll_nr is given.
+     *                           Not required if poll_nr is given.
      * @param int $p_poll_nr
-     *        Not required when creating an poll.
+     *                           Not required when creating an poll.
      */
     public function Poll($p_language_id = null, $p_poll_nr = null)
     {
@@ -88,13 +89,11 @@ class Poll extends DatabaseObject {
         }
     } // constructor
 
-
     /**
      * A way for internal functions to call the superclass create function.
      * @param array $p_values
      */
     private function __create($p_values = null) { return parent::create($p_values); }
-
 
     /**
      * Generate the next poll number
@@ -113,21 +112,21 @@ class Poll extends DatabaseObject {
         if (is_null($row['number'])) {
             return 1;
         }
+
         return $row['number'];
     }
-
 
     /**
      * Create an poll in the database.  Use the SET functions to
      * change individual values.
      *
-     * @param date $p_date_begin
-     * @param date $p_date_end
-     * @param int $p_nr_of_answers
-     * @param bool $p_votes_per_user
+     * @param  date $p_date_begin
+     * @param  date $p_date_end
+     * @param  int  $p_nr_of_answers
+     * @param  bool $p_votes_per_user
      * @return void
      */
-    public function create($p_title, $p_question, $p_date_begin, $p_date_end, $p_nr_of_answers, $p_votes_per_user)
+    public function create($p_title = null, $p_question = null, $p_date_begin = null, $p_date_end = null, $p_nr_of_answers = null, $p_votes_per_user = null)
     {
         global $g_ado_db;
 
@@ -146,7 +145,6 @@ class Poll extends DatabaseObject {
             'question' => $p_question,
             'votes_per_user' => $p_votes_per_user
         );
-
 
         $success = parent::create($values);
         if (!$success) {
@@ -170,9 +168,9 @@ class Poll extends DatabaseObject {
     /**
      * Create a translation of an poll.
      *
-     * @param int $p_languageId
-     * @param string $p_title
-     * @param string $p_question
+     * @param  int    $p_languageId
+     * @param  string $p_title
+     * @param  string $p_question
      * @return Poll
      */
     public function createTranslation($p_language_id, $p_title, $p_question)
@@ -215,13 +213,12 @@ class Poll extends DatabaseObject {
         return $poll_copy;
     } // fn createTranslation
 
-
     /**
      * Create a copy of an poll.
      *
-     * @param string $p_title
-     * @param string $p_question
-     * @param array $p_answers
+     * @param  string $p_title
+     * @param  string $p_question
+     * @param  array  $p_answers
      * @return Poll
      */
     public function createCopy($p_data, $p_answers)
@@ -265,7 +262,6 @@ class Poll extends DatabaseObject {
 
         return $poll_copy;
     } // fn createTranslation
-
 
     /**
      * Delete poll from database.  This will
@@ -316,13 +312,12 @@ class Poll extends DatabaseObject {
         return $deleted;
     } // fn delete
 
-
     /**
      * Return an array of poll objects, one for each
      * type of language the article is written in.
      *
      * @param int $p_articleNumber
-     *         Optional.  Use this if you call this function statically.
+     *                             Optional.  Use this if you call this function statically.
      *
      * @return array
      */
@@ -353,14 +348,13 @@ class Poll extends DatabaseObject {
         return $polls;
     } // fn getTranslations
 
-
     /**
      * Construct query to recive polls from database
      *
-     * @param int $p_language
+     * @param  int    $p_language
      * @return string
      */
-    static private function GetQuery($p_language = null, $p_orderBy = null)
+    private static function GetQuery($p_language = null, $p_orderBy = null)
     {
         switch ($p_orderBy) {
             case 'title':
@@ -398,56 +392,55 @@ class Poll extends DatabaseObject {
      * Get an array of poll objects
      * You need to specify the language
      *
-     * @param unknown_type $p_language_id
-     * @param unknown_type $p_offset
-     * @param unknown_type $p_limit
+     * @param  unknown_type $p_language_id
+     * @param  unknown_type $p_offset
+     * @param  unknown_type $p_limit
      * @return array
      */
-    static public function GetPolls($p_constraints = array(), $p_item = null, $p_offset = 0, $p_limit = 20, $p_orderBy = null, $p_filter = null)
+    public static function GetPolls($p_constraints = array(), $p_item = null, $p_offset = 0, $p_limit = 20, $p_orderBy = null, $p_filter = null)
     {
         $constraints = array();
         $operator = new Operator('is');
 
-	    if (array_key_exists('language_id', $p_constraints) && !empty($p_constraints['language_id'])) {
-    	    $comparisonOperation = new ComparisonOperation('language_id', $operator, $p_constraints['language_id']);
-    	    $constraints[] = $comparisonOperation;
-	    }
+        if (array_key_exists('language_id', $p_constraints) && !empty($p_constraints['language_id'])) {
+            $comparisonOperation = new ComparisonOperation('language_id', $operator, $p_constraints['language_id']);
+            $constraints[] = $comparisonOperation;
+        }
 
-	    if (array_key_exists('publication_id', $p_constraints) && !empty($p_constraints['publication_id'])) {
-    	    $comparisonOperation = new ComparisonOperation('_assign_publication_id', $operator, $p_constraints['publication_id']);
-    	    $constraints[] = $comparisonOperation;
-	    }
+        if (array_key_exists('publication_id', $p_constraints) && !empty($p_constraints['publication_id'])) {
+            $comparisonOperation = new ComparisonOperation('_assign_publication_id', $operator, $p_constraints['publication_id']);
+            $constraints[] = $comparisonOperation;
+        }
 
-	    if (array_key_exists('issue_nr', $p_constraints) && !empty($p_constraints['issue_nr'])) {
-    	    $comparisonOperation = new ComparisonOperation('_assign_issue_nr', $operator, $p_constraints['issue_nr']);
-    	    $constraints[] = $comparisonOperation;
-	    }
+        if (array_key_exists('issue_nr', $p_constraints) && !empty($p_constraints['issue_nr'])) {
+            $comparisonOperation = new ComparisonOperation('_assign_issue_nr', $operator, $p_constraints['issue_nr']);
+            $constraints[] = $comparisonOperation;
+        }
 
-	    if (array_key_exists('section_nr', $p_constraints) && !empty($p_constraints['section_nr'])) {
-    	    $comparisonOperation = new ComparisonOperation('_assign_section_nr', $operator, $p_constraints['section_nr']);
-    	    $constraints[] = $comparisonOperation;
-	    }
+        if (array_key_exists('section_nr', $p_constraints) && !empty($p_constraints['section_nr'])) {
+            $comparisonOperation = new ComparisonOperation('_assign_section_nr', $operator, $p_constraints['section_nr']);
+            $constraints[] = $comparisonOperation;
+        }
 
-	    if (array_key_exists('article_nr', $p_constraints) && !empty($p_constraints['article_nr'])) {
-    	    $comparisonOperation = new ComparisonOperation('_assign_article_nr', $operator, $p_constraints['article_nr']);
-    	    $constraints[] = $comparisonOperation;
-	    }
+        if (array_key_exists('article_nr', $p_constraints) && !empty($p_constraints['article_nr'])) {
+            $comparisonOperation = new ComparisonOperation('_assign_article_nr', $operator, $p_constraints['article_nr']);
+            $constraints[] = $comparisonOperation;
+        }
 
-	    if (array_key_exists('is_extendet', $p_constraints)) {
-    	    $comparisonOperation = new ComparisonOperation('is_extended', $operator, $p_constraints['is_extended']);
-    	    $constraints[] = $comparisonOperation;
-	    }
+        if (array_key_exists('is_extendet', $p_constraints)) {
+            $comparisonOperation = new ComparisonOperation('is_extended', $operator, $p_constraints['is_extended']);
+            $constraints[] = $comparisonOperation;
+        }
 
-	    if (array_key_exists('parent_poll_nr', $p_constraints)) {
-    	    $comparisonOperation = new ComparisonOperation('parent_poll_nr', $operator, $p_constraints['parent_poll_nr']);
-    	    $constraints[] = $comparisonOperation;
-	    }
+        if (array_key_exists('parent_poll_nr', $p_constraints)) {
+            $comparisonOperation = new ComparisonOperation('parent_poll_nr', $operator, $p_constraints['parent_poll_nr']);
+            $constraints[] = $comparisonOperation;
+        }
 
-	    $order = array($p_orderBy => 'ASC');
+        $order = array($p_orderBy => 'ASC');
 
         return Poll::GetList($constraints, $p_item, $order, $p_offset, $p_limit, $p_count);
     }
-
 
     /**
      * Get the count for available polls
@@ -464,16 +457,16 @@ class Poll extends DatabaseObject {
         return $res->RecordCount();
     }
 
-
     /**
      * Get answer object for this poll by given number
      *
-     * @param unknown_type $p_nr_answer
+     * @param  unknown_type $p_nr_answer
      * @return object
      */
     public function getAnswer($p_nr_answer)
     {
         $answer = new PollAnswer($this->m_data['fk_language_id'], $this->m_data['poll_nr'], $p_nr_answer);
+
         return $answer;
     }
 
@@ -568,7 +561,7 @@ class Poll extends DatabaseObject {
         $nr_of_votes_overall = 0;
 
         foreach ($poll->getTranslations() as $translation) {
-        	$nr_of_votes[$translation->getLanguageId()] = 0;
+            $nr_of_votes[$translation->getLanguageId()] = 0;
             foreach ($translation->getAnswers() as $answer) {
                 $votes[$translation->getLanguageId()][$answer->getProperty('nr_answer')] = $answer->getProperty('nr_of_votes');
                 $nr_of_votes[$translation->getLanguageId()] += $answer->getProperty('nr_of_votes');
@@ -598,36 +591,38 @@ class Poll extends DatabaseObject {
      * Method to call parent::setProperty
      * with clening the cache.
      *
-     * @param string $p_name
-     * @param sring $p_value
+     * @param string  $p_name
+     * @param sring   $p_value
+     * @param boolean $p_commit
+     * @param boolean $p_isSql
      */
-    function setProperty($p_name, $p_value)
+    public function setProperty($p_name, $p_value, $p_commit = true, $p_isSql = false)
     {
-        $return = parent::setProperty($p_name, $p_value);
+        $return = parent::setProperty($p_name, $p_value, $p_commit, $p_isSql);
         $CampCache = CampCache::singleton();
         $CampCache->clear('user');
+
         return $return;
     }
-
 
     /////////////////// Special template engine methods below here /////////////////////////////
 
     /**
      * Gets an issue list based on the given parameters.
      *
-     * @param array $p_parameters
-     *    An array of ComparisonOperation objects
+     * @param array   $p_parameters
+     *                              An array of ComparisonOperation objects
      * @param string item
-     *    An indentifier which assignment should be used (publication/issue/section/article)
-     * @param string $p_order
-     *    An array of columns and directions to order by
+     *                              An indentifier which assignment should be used (publication/issue/section/article)
+     * @param string  $p_order
+     *                              An array of columns and directions to order by
      * @param integer $p_start
-     *    The record number to start the list
+     *                              The record number to start the list
      * @param integer $p_limit
-     *    The offset. How many records from $p_start will be retrieved.
+     *                              The offset. How many records from $p_start will be retrieved.
      *
      * @return array $issuesList
-     *    An array of Issue objects
+     *               An array of Issue objects
      */
     public static function GetList(array $p_parameters, $p_item = null, $p_order = null, $p_start = 0, $p_limit = 0, &$p_count)
     {
@@ -677,7 +672,7 @@ class Poll extends DatabaseObject {
 
         // sets the columns to be fetched
         $tmpPoll = new Poll();
-		$columnNames = $tmpPoll->getColumnNames(true);
+        $columnNames = $tmpPoll->getColumnNames(true);
         foreach ($columnNames as $columnName) {
             $selectClauseObj->addColumn($columnName);
         }
@@ -806,10 +801,10 @@ class Poll extends DatabaseObject {
      * Processes a paremeter (condition) coming from template tags.
      *
      * @param array $p_param
-     *      The array of parameters
+     *                       The array of parameters
      *
      * @return array $comparisonOperation
-     *      The array containing processed values of the condition
+     *               The array containing processed values of the condition
      */
     private static function ProcessListParameters(ComparisonOperation $p_param)
     {
@@ -830,10 +825,10 @@ class Poll extends DatabaseObject {
      * Processes an order directive coming from template tags.
      *
      * @param array $p_order
-     *      The array of order directives
+     *                       The array of order directives
      *
      * @return array
-     *      The array containing processed values of the condition
+     *               The array containing processed values of the condition
      */
     private static function ProcessListOrder(array $p_order)
     {
@@ -883,6 +878,7 @@ class Poll extends DatabaseObject {
             }
             $order[$dbField] = $direction;
         }
+
         return $order;
     }
 
@@ -908,6 +904,7 @@ class Poll extends DatabaseObject {
             if (!empty($token) && empty($_COOKIE[$token_key])) { // reset client count
                 $this->increaseUserVoteCount(0);
                 setcookie($token_key, time(), time() + 60 * 60 * 24 * 365);
+
                 return true;
             }
 
@@ -919,7 +916,7 @@ class Poll extends DatabaseObject {
 
     /**
      * Increate counter poll has been voted by single client
-     * @param int $force_value
+     * @param  int  $force_value
      * @return void
      */
     public function increaseUserVoteCount($force_value = NULL)

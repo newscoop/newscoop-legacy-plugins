@@ -6,12 +6,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
-class Soundcloud extends DatabaseObject {
-
-    var $m_keyColumnNames = array('article_id', 'track_id');
-    var $m_keyIsAutoIncrement = true;
-    var $m_dbTableName = 'plugin_soundcloud';
-    var $m_columnNames = array(
+class Soundcloud extends DatabaseObject
+{
+    public $m_keyColumnNames = array('article_id', 'track_id');
+    public $m_keyIsAutoIncrement = true;
+    public $m_dbTableName = 'plugin_soundcloud';
+    public $m_columnNames = array(
         'article_id',
         'track_id',
         'track_data',
@@ -29,7 +29,7 @@ class Soundcloud extends DatabaseObject {
         }
     }
 
-    public function create($p_article_id, $p_track_id, $p_track_data)
+    public function create($p_article_id = null, $p_track_id = null, $p_track_data = null)
     {
         if (empty($p_article_id) || empty($p_track_id) || empty($p_track_data)) {
             return false;
@@ -50,7 +50,7 @@ class Soundcloud extends DatabaseObject {
         return true;
     }
 
-    static public function getAssignments($p_article_id, $p_order = 'asc', $p_start = 0, $p_limit = 0)
+    public static function getAssignments($p_article_id, $p_order = 'asc', $p_start = 0, $p_limit = 0)
     {
         global $g_ado_db;
         $tracks = array();
@@ -66,10 +66,11 @@ class Soundcloud extends DatabaseObject {
                 $tracks[] = @unserialize($track['track_data']);
             }
         }
+
         return $tracks;
     }
 
-    static public function deleteAllTracks($p_track_id)
+    public static function deleteAllTracks($p_track_id)
     {
         global $g_ado_db;
         $query = 'DELETE
