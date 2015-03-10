@@ -90,7 +90,7 @@ function debate_'.$campsite->debate->identifier.'_vote()
         $html .= $p_content;
 
         if (strlen($p_params['submit_button']) && $campsite->debate->is_votable) {
-            $html .= "<div align=\"center\">\n.
+            $html .= "<div align=\"center\">\n
                      <input type=\"submit\" name=\"f_debate\" value=\"".
                      smarty_function_escape_special_chars($p_params['submit_button']).
                      "\" ".

@@ -47,14 +47,14 @@ $(document).ready(function(){
 
 <div class="articlebox" title="Soundcloud">
 
-<? if (($f_edit_mode == "edit") && $g_user->hasPermission('plugin_soundcloud_browser')): ?>
-    <a id="soundcloud-iframe" custom="yes" class="iframe ui-state-default icon-button right-floated" href="<?= "/$ADMIN/soundcloud/attachement.php?article_id=$f_article_number" ?>"><span class="ui-icon ui-icon-plusthick"></span><? echo $translator->trans('Attach') ?></a>
+<?php if (($f_edit_mode == "edit") && $g_user->hasPermission('plugin_soundcloud_browser')): ?>
+    <a id="soundcloud-iframe" custom="yes" class="iframe ui-state-default icon-button right-floated" href="<?= "/$ADMIN/soundcloud/attachement.php?article_id=$f_article_number" ?>"><span class="ui-icon ui-icon-plusthick"></span><?php echo $translator->trans('Attach') ?></a>
     <div class="clear"></div>
-<? endif ?>
+<?php endif ?>
 
 
 <ul class="block-list">
-<? foreach (Soundcloud::getAssignments($f_article_number) as $trackData): ?>
+<?php foreach (Soundcloud::getAssignments($f_article_number) as $trackData): ?>
 <li id="soundcloud-<?= $trackData['id'] ?>">
     <div><a class="text-link" target="soundcloud" href="<?= $trackData['permalink_url'] ?><?= $trackData['sharing']=='public'?'':'/'.$trackData['secret_token'] ?>"><?= $trackData['title']; ?></a></div>
     <object height="81" width="100%"><param name="movie" value="http://player.soundcloud.com/player.swf?url=<?= urlencode($trackData['secret_uri']) ?>&amp;show_comments=false&amp;auto_play=false&amp;color=08597d"></param>
@@ -63,7 +63,7 @@ $(document).ready(function(){
     </object>
 <a id="<?= $trackData['id'] ?>" class="soundcloud-unlink corner-button" href=""><span class="ui-icon ui-icon-closethick"></span></a>
 </li>
-<? endforeach ?>
+<?php endforeach ?>
 </ul>
 
 </div>
