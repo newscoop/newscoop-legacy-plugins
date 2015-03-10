@@ -2,7 +2,7 @@
 $translator = \Zend_Registry::get('container')->getService('translator');
 $preferencesService = \Zend_Registry::get('container')->getService('system_preferences_service');
 // User role depend on path to this file.
-if (strpos($call_script, '/recaptcha/admin/') !== false && $g_user->hasPermission('plugin_recaptcha_admin')) {
+if (strpos($call_script, '/recaptcha/') !== false && $g_user->hasPermission('plugin_recaptcha_admin')) {
     $is_admin = true;
 }
 
@@ -32,7 +32,7 @@ if (Input::Get('save')) {
 }
 
 echo camp_html_breadcrumbs(array(
-    array($translator->trans('Plugins'), $Campsite['WEBSITE_URL'] . '/admin/plugins/manage.php'),
+    array($translator->trans('Plugins'), $Campsite['WEBSITE_URL'].'/admin/plugins/manage.php'),
     array($translator->trans('reCAPTCHA', array(), 'plugin_recaptcha'), ''),
     array($translator->trans('reCAPTCHA Settings', array(), 'plugin_recaptcha'), ''),
 ));
@@ -61,11 +61,15 @@ camp_html_display_msgs();
 <table border="0" width="600" cellspacing="0" cellpadding="0" class="box_table">
 <tr>
   <td align="left"><?php echo $translator->trans('Enable reCAPTCHA for comments', array(), 'plugin_recaptcha'); ?></td>
-  <td><input type="checkbox" name="f_recaptcha_enabled" value="Y" <?php if ($preferencesService->PLUGIN_RECAPTCHA_ENABLED == 'Y') p('checked'); ?> /></td>
+  <td><input type="checkbox" name="f_recaptcha_enabled" value="Y" <?php if ($preferencesService->PLUGIN_RECAPTCHA_ENABLED == 'Y') {
+    p('checked');
+} ?> /></td>
 </tr>
 <tr>
   <td align="left"><?php echo $translator->trans('Enable reCAPTCHA for subscriptions', array(), 'plugin_recaptcha'); ?></td>
-  <td><input type="checkbox" name="f_recaptcha_subscriptions_enabled" value="Y" <?php if ($preferencesService->PLUGIN_RECAPTCHA_SUBSCRIPTIONS_ENABLED == 'Y') p('checked'); ?> /></td>
+  <td><input type="checkbox" name="f_recaptcha_subscriptions_enabled" value="Y" <?php if ($preferencesService->PLUGIN_RECAPTCHA_SUBSCRIPTIONS_ENABLED == 'Y') {
+    p('checked');
+} ?> /></td>
 </tr>
 <tr>
   <td><?php echo $translator->trans('Enter your reCAPTCHA public key', array(), 'plugin_recaptcha'); ?>:</td>
