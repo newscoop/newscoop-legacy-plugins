@@ -1,20 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 2.9.1.1-Debian-3
--- http://www.phpmyadmin.net
--- 
--- Host: localhost
--- Erstellungszeit: 23. April 2008 um 15:55
--- Server Version: 5.0.32
--- PHP-Version: 5.2.0-8+etch7
--- 
--- Datenbank: `campsite_30_poll`
--- 
-
--- --------------------------------------------------------
-
--- 
--- Tabellenstruktur f�r Tabelle `plugin_poll`
--- 
 
 CREATE TABLE IF NOT EXISTS `plugin_poll` (
   `poll_nr` int(10) unsigned NOT NULL,
@@ -35,12 +18,6 @@ CREATE TABLE IF NOT EXISTS `plugin_poll` (
   PRIMARY KEY  (`poll_nr`,`fk_language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
--- 
--- Tabellenstruktur f�r Tabelle `plugin_poll_answer`
--- 
-
 CREATE TABLE IF NOT EXISTS `plugin_poll_answer` (
   `fk_poll_nr` int(10) unsigned NOT NULL default '0',
   `fk_language_id` int(10) unsigned NOT NULL default '0',
@@ -56,24 +33,12 @@ CREATE TABLE IF NOT EXISTS `plugin_poll_answer` (
   UNIQUE KEY `NrPoll` (`fk_poll_nr`,`fk_language_id`,`nr_answer`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
--- 
--- Tabellenstruktur f�r Tabelle `plugin_poll_article`
--- 
-
 CREATE TABLE IF NOT EXISTS `plugin_poll_article` (
   `fk_poll_nr` int(10) unsigned NOT NULL default '0',
   `fk_article_nr` int(10) unsigned NOT NULL default '0',
   `fk_article_language_id` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`fk_poll_nr`,`fk_article_nr`,`fk_article_language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
--- 
--- Tabellenstruktur f�r Tabelle `plugin_poll_issue`
--- 
 
 CREATE TABLE IF NOT EXISTS `plugin_poll_issue` (
   `fk_poll_nr` int(10) unsigned NOT NULL default '0',
@@ -83,23 +48,11 @@ CREATE TABLE IF NOT EXISTS `plugin_poll_issue` (
   PRIMARY KEY  (`fk_poll_nr`,`fk_issue_nr`,`fk_issue_language_id`,`fk_publication_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
--- 
--- Tabellenstruktur f�r Tabelle `plugin_poll_publication`
--- 
-
 CREATE TABLE IF NOT EXISTS `plugin_poll_publication` (
   `fk_poll_nr` int(10) unsigned NOT NULL default '0',
   `fk_publication_id` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`fk_poll_nr`,`fk_publication_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
--- 
--- Tabellenstruktur f�r Tabelle `plugin_poll_section`
--- 
 
 CREATE TABLE IF NOT EXISTS `plugin_poll_section` (
   `fk_poll_nr` int(10) unsigned NOT NULL default '0',
@@ -109,12 +62,6 @@ CREATE TABLE IF NOT EXISTS `plugin_poll_section` (
   `fk_publication_id` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`fk_poll_nr`,`fk_section_nr`,`fk_section_language_id`,`fk_issue_nr`,`fk_publication_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
--- 
--- Tabellenstruktur f�r Tabelle `plugin_pollanswer_attachment`
--- 
 
 CREATE TABLE IF NOT EXISTS `plugin_pollanswer_attachment` (
   `fk_poll_nr` int(11) NOT NULL,
