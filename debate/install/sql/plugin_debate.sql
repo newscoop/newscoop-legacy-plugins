@@ -1,6 +1,3 @@
---
--- Table structure for table `plugin_debate`
---
 
 CREATE TABLE IF NOT EXISTS `plugin_debate` (
   `debate_nr` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -24,24 +21,12 @@ CREATE TABLE IF NOT EXISTS `plugin_debate` (
   PRIMARY KEY (`debate_nr`,`fk_language_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `plugin_debateanswer_attachment`
---
-
 CREATE TABLE IF NOT EXISTS `plugin_debateanswer_attachment` (
   `fk_debate_nr` int(11) NOT NULL,
   `fk_debateanswer_nr` int(11) NOT NULL,
   `fk_attachment_id` int(11) NOT NULL,
   PRIMARY KEY (`fk_debate_nr`,`fk_debateanswer_nr`,`fk_attachment_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `plugin_debate_answer`
---
 
 CREATE TABLE IF NOT EXISTS `plugin_debate_answer` (
   `fk_debate_nr` int(10) unsigned NOT NULL DEFAULT '0',
@@ -58,24 +43,12 @@ CREATE TABLE IF NOT EXISTS `plugin_debate_answer` (
   UNIQUE KEY `Nrdebate` (`fk_debate_nr`,`fk_language_id`,`nr_answer`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `plugin_debate_article`
---
-
 CREATE TABLE IF NOT EXISTS `plugin_debate_article` (
   `fk_debate_nr` int(10) unsigned NOT NULL DEFAULT '0',
   `fk_article_nr` int(10) unsigned NOT NULL DEFAULT '0',
   `fk_article_language_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`fk_debate_nr`,`fk_article_nr`,`fk_article_language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `plugin_debate_issue`
---
 
 CREATE TABLE IF NOT EXISTS `plugin_debate_issue` (
   `fk_debate_nr` int(10) unsigned NOT NULL DEFAULT '0',
@@ -85,23 +58,11 @@ CREATE TABLE IF NOT EXISTS `plugin_debate_issue` (
   PRIMARY KEY (`fk_debate_nr`,`fk_issue_nr`,`fk_issue_language_id`,`fk_publication_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `plugin_debate_publication`
---
-
 CREATE TABLE IF NOT EXISTS `plugin_debate_publication` (
   `fk_debate_nr` int(10) unsigned NOT NULL DEFAULT '0',
   `fk_publication_id` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`fk_debate_nr`,`fk_publication_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `plugin_debate_section`
---
 
 CREATE TABLE IF NOT EXISTS `plugin_debate_section` (
   `fk_debate_nr` int(10) unsigned NOT NULL DEFAULT '0',
@@ -111,12 +72,6 @@ CREATE TABLE IF NOT EXISTS `plugin_debate_section` (
   `fk_publication_id` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`fk_debate_nr`,`fk_section_nr`,`fk_section_language_id`,`fk_issue_nr`,`fk_publication_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `plugin_debate_vote`
---
 
 CREATE TABLE IF NOT EXISTS `plugin_debate_vote` (
   `id_vote` int(10) unsigned NOT NULL AUTO_INCREMENT,
